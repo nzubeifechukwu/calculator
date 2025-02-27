@@ -1,5 +1,6 @@
 const displayDiv = document.querySelector(".display");
-displayDiv.textContent = "";
+// displayDiv.textContent = "";
+let displayVal = "";
 
 const digits = [
   "zero",
@@ -15,6 +16,14 @@ const digits = [
 ];
 
 const digitBtns = digits.map((digit) => document.querySelector(`.${digit}`));
+
+digitBtns.map((btn) =>
+  btn.addEventListener("click", (event) => {
+    // console.log(event);
+    displayVal += event.target.textContent;
+    displayDiv.textContent = displayVal;
+  })
+);
 
 function operate(num1, operator, num2) {
   if (operator === "+") {
