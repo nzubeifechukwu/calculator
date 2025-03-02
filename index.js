@@ -3,6 +3,9 @@ let displayVal = "";
 let values = [];
 let operator;
 
+// will use variable to control whether to keep appending digits to displayVal
+let clickedEqualsBtn = false;
+
 const digits = [
   "zero",
   "one",
@@ -20,6 +23,10 @@ const digitBtns = digits.map((digit) => document.querySelector(`.${digit}`));
 
 digitBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
+    if (clickedEqualsBtn) {
+      displayVal = "";
+      clickedEqualsBtn = false;
+    }
     displayVal += event.target.textContent;
     displayDiv.textContent = displayVal;
   })
@@ -36,17 +43,22 @@ operationBtns.map((btn) =>
     operator = event.target.textContent;
     values.push(parseInt(displayVal));
     displayVal = "";
-    // console.log(values);
+    clickedEqualsBtn = false;
   })
 );
 
 const equalsBtn = document.querySelector(".equals");
+
 equalsBtn.addEventListener("click", () => {
   values.push(parseInt(displayVal));
   displayVal = operate(values[0], operator, values[1]);
   console.log(displayVal);
   displayDiv.textContent = displayVal;
-  displayVal = "";
+  console.log(values);
+  values = [];
+  clickedEqualsBtn = true;
+  // values.push(parseInt(displayVal));
+  // displayVal = "";
 });
 
 function operate(num1, operator, num2) {
