@@ -1,11 +1,7 @@
-const displayDiv = document.querySelector(".display");
 let displayVal = "";
 let values = [];
 let operator;
-
-// will use variable to control whether to keep appending digits to displayVal
-let clickedEqualsBtn = false;
-
+let clickedEqualsBtn = false; // will use variable to control whether to keep appending digits to displayVal
 const digits = [
   "zero",
   "one",
@@ -18,8 +14,14 @@ const digits = [
   "eight",
   "nine",
 ];
+const operations = ["add", "subtract", "multiply", "divide"];
 
+const displayDiv = document.querySelector(".display");
 const digitBtns = digits.map((digit) => document.querySelector(`.${digit}`));
+const operationBtns = operations.map((operation) =>
+  document.querySelector(`.${operation}`)
+);
+const equalsBtn = document.querySelector(".equals");
 
 digitBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
@@ -32,22 +34,39 @@ digitBtns.map((btn) =>
   })
 );
 
-const operations = ["add", "subtract", "multiply", "divide"];
-
-const operationBtns = operations.map((operation) =>
-  document.querySelector(`.${operation}`)
-);
+// operationBtns.map((btn) =>
+//   btn.addEventListener("click", (event) => {
+//     operator = event.target.textContent;
+//     if (!displayVal) {
+//       values.push(parseInt(0));
+//     } else {
+//       values.push(parseInt(displayVal));
+//     }
+//     displayVal = "";
+//     clickedEqualsBtn = false;
+//   })
+// );
 
 operationBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
+    if (!displayVal) {
+      values.push(parseInt(0));
+    } else {
+      values.push(parseInt(displayVal));
+    }
+    if (values.length === 2) {
+      displayVal = operate(values[0], operator, values[1]);
+      console.log(displayVal);
+      displayDiv.textContent = displayVal;
+      console.log(values);
+      values = [displayVal];
+    }
     operator = event.target.textContent;
-    values.push(parseInt(displayVal));
     displayVal = "";
     clickedEqualsBtn = false;
+    console.log(values);
   })
 );
-
-const equalsBtn = document.querySelector(".equals");
 
 equalsBtn.addEventListener("click", () => {
   values.push(parseInt(displayVal));
@@ -57,8 +76,6 @@ equalsBtn.addEventListener("click", () => {
   console.log(values);
   values = [];
   clickedEqualsBtn = true;
-  // values.push(parseInt(displayVal));
-  // displayVal = "";
 });
 
 function operate(num1, operator, num2) {
