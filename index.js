@@ -2,6 +2,7 @@ let displayVal = "";
 let values = [];
 let operator;
 let clickedEqualsBtn = false; // will use variable to control whether to keep appending digits to displayVal
+let clickedOperator = false; // will use to control double or more clicking of operator button
 const digits = [
   "zero",
   "one",
@@ -22,6 +23,7 @@ const operationBtns = operations.map((operation) =>
   document.querySelector(`.${operation}`)
 );
 const equalsBtn = document.querySelector(".equals");
+const acBtn = document.querySelector(".ac");
 
 digitBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
@@ -31,40 +33,31 @@ digitBtns.map((btn) =>
     }
     displayVal += event.target.textContent;
     displayDiv.textContent = displayVal;
+    clickedOperator = false;
   })
 );
 
-// operationBtns.map((btn) =>
-//   btn.addEventListener("click", (event) => {
-//     operator = event.target.textContent;
-//     if (!displayVal) {
-//       values.push(parseInt(0));
-//     } else {
-//       values.push(parseInt(displayVal));
-//     }
-//     displayVal = "";
-//     clickedEqualsBtn = false;
-//   })
-// );
-
 operationBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
-    if (!displayVal) {
-      values.push(parseInt(0));
-    } else {
-      values.push(parseInt(displayVal));
-    }
-    if (values.length === 2) {
-      displayVal = operate(values[0], operator, values[1]);
-      console.log(displayVal);
-      displayDiv.textContent = displayVal;
+    if (!clickedOperator) {
+      if (!displayVal) {
+        values.push(parseInt(0));
+      } else {
+        values.push(parseInt(displayVal));
+      }
+      if (values.length === 2) {
+        displayVal = operate(values[0], operator, values[1]);
+        console.log(displayVal);
+        displayDiv.textContent = displayVal;
+        console.log(values);
+        values = [displayVal];
+      }
+      operator = event.target.textContent;
+      displayVal = "";
+      clickedEqualsBtn = false;
+      clickedOperator = true;
       console.log(values);
-      values = [displayVal];
     }
-    operator = event.target.textContent;
-    displayVal = "";
-    clickedEqualsBtn = false;
-    console.log(values);
   })
 );
 
@@ -76,6 +69,15 @@ equalsBtn.addEventListener("click", () => {
   console.log(values);
   values = [];
   clickedEqualsBtn = true;
+  clickedOperator = false;
+});
+
+acBtn.addEventListener("click", () => {
+  values = [];
+  clickedEqualsBtn = false;
+  clickedOperator = false;
+  displayVal = "";
+  displayDiv.textContent = 0;
 });
 
 function operate(num1, operator, num2) {
