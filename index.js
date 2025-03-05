@@ -1,8 +1,14 @@
 let displayVal = "";
 let values = [];
 let operator;
-let clickedEqualsBtn = false; // will use variable to control whether to keep appending digits to displayVal
-let clickedOperator = false; // will use to control double or more clicking of operator button
+let operatorSymbol;
+
+// These Boolean variables are to track which type of button I last clicked
+// Only one will be on (true) at any point in time, although initially they are all false
+let clickedEqualsBtn = false; // switch on once equals button is clicked
+let clickedOperator = false; // switch on once an operator button is clicked
+let clickedDigit = false; // switch on once you have created an operand
+
 const digits = [
   "zero",
   "one",
@@ -16,6 +22,7 @@ const digits = [
   "nine",
 ];
 const operations = ["add", "subtract", "multiply", "divide"];
+const operatorSymbols = ["+", "-", "*", "/"];
 
 const displayDiv = document.querySelector(".display");
 const digitBtns = digits.map((digit) => document.querySelector(`.${digit}`));
@@ -28,54 +35,77 @@ const acBtn = document.querySelector(".ac");
 digitBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
     if (clickedEqualsBtn) {
-      displayVal = "";
+      displayVal = ""; // reset displayVal once equals button has been clicked
       clickedEqualsBtn = false;
     }
     displayVal += event.target.textContent;
     displayDiv.textContent = displayVal;
-    clickedOperator = false;
+
+    // switch on clickedDigit only when all digits of the operand have been appended to displayVal
+    if (clickedOperator) {
+      clickedDigit = true;
+      clickedOperator = false;
+    }
   })
 );
 
 operationBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
-    if (!clickedOperator) {
-      if (!displayVal) {
-        values.push(parseInt(0));
-      } else {
-        values.push(parseInt(displayVal));
+    operator = event.target.textContent;
+    console.log(operator);
+
+    // Do nothing if same operator button is clicked again
+    if (operatorSymbol !== operator) {
+      // Don't update values if operator buttons are clicked consecutively
+      // This ensures that values can't contain more than two operands
+      if (!clickedOperator) {
+        if (!displayVal) {
+          values.push(parseInt(0));
+        } else {
+          values.push(parseInt(displayVal));
+        }
       }
-      if (values.length === 2) {
-        displayVal = operate(values[0], operator, values[1]);
+      // Only perform an operation if `values` contains two operands
+      // and a digit button is the last button clicked
+      if (values.length === 2 && clickedDigit) {
+        displayVal = operate(values[0], operatorSymbol, values[1]);
         console.log(displayVal);
         displayDiv.textContent = displayVal;
         console.log(values);
         values = [displayVal];
       }
-      operator = event.target.textContent;
+      // Get operator symbol that was last clicked
+      operatorSymbol = operatorSymbols.find((symbol) => symbol === operator);
       displayVal = "";
       clickedEqualsBtn = false;
       clickedOperator = true;
+      clickedDigit = false;
       console.log(values);
     }
   })
 );
 
 equalsBtn.addEventListener("click", () => {
-  values.push(parseInt(displayVal));
-  displayVal = operate(values[0], operator, values[1]);
-  console.log(displayVal);
-  displayDiv.textContent = displayVal;
-  console.log(values);
-  values = [];
-  clickedEqualsBtn = true;
-  clickedOperator = false;
+  // implements equals operation only when you have two operands,
+  // and ignores double or more click of equals button
+  if (clickedDigit && !clickedEqualsBtn) {
+    values.push(parseInt(displayVal));
+    displayVal = operate(values[0], operator, values[1]);
+    console.log(displayVal);
+    displayDiv.textContent = displayVal;
+    console.log(values);
+    values = [];
+    clickedEqualsBtn = true;
+    clickedOperator = false;
+    clickedDigit = false;
+  }
 });
 
 acBtn.addEventListener("click", () => {
   values = [];
   clickedEqualsBtn = false;
   clickedOperator = false;
+  clickedDigit = false;
   displayVal = "";
   displayDiv.textContent = 0;
 });
@@ -110,9 +140,3 @@ function multiply(num1, num2) {
 function divide(num1, num2) {
   return num1 / num2;
 }
-
-// const num1 = 15;
-// const num2 = 3;
-// operator = "/";
-
-// console.log(operate(num1, operator, num2));
