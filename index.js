@@ -95,6 +95,7 @@ operationBtns.map((btn) =>
       clickedOperator = true;
       clickedDigit = false;
     }
+    calledResetValues = false; // reset to false for next time operator button is clicked
   })
 );
 
@@ -186,6 +187,7 @@ function resetValues() {
   clickedEqualsBtn = false;
   clickedOperator = false;
   clickedDigit = false;
+  calledResetValues = false;
   displayVal = "";
   displayDiv.textContent = 0;
   operator = "";
