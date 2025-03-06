@@ -9,6 +9,10 @@ let clickedEqualsBtn = false; // switch on once equals button is clicked
 let clickedOperator = false; // switch on once an operator button is clicked
 let clickedDigit = false; // switch on once you have created an operand
 
+// Will use this to make sure operator buttons behave appropriately
+// when there is an attempt to divide by 0
+let calledResetValues = false;
+
 const digits = [
   "zero",
   "one",
@@ -30,6 +34,7 @@ const operationBtns = operations.map((operation) =>
 );
 const equalsBtn = document.querySelector(".equals");
 const acBtn = document.querySelector(".ac");
+const decimalPointBtn = document.querySelector(".decimal-point");
 
 digitBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
@@ -57,9 +62,9 @@ operationBtns.map((btn) =>
     // This ensures that values can't contain more than two operands
     if (!clickedOperator) {
       if (!displayVal) {
-        values.push(parseInt(0));
+        values.push(Number(0));
       } else {
-        values.push(parseInt(displayVal));
+        values.push(Number(displayVal));
       }
     }
 
@@ -67,20 +72,29 @@ operationBtns.map((btn) =>
     // and a digit button is the last button clicked
     if (values.length === 2 && clickedDigit) {
       displayVal = operate(values[0], operatorSymbol, values[1]);
-      console.log(displayVal);
-      displayDiv.textContent = displayVal;
-      console.log(values);
-      values = [displayVal];
+      if (operatorSymbol === "/" && values[1] === 0) {
+        alert("DIVISION BY 0 NOT ALLOWED!");
+        resetValues();
+        calledResetValues = true;
+      } else {
+        console.log(displayVal);
+        displayDiv.textContent = displayVal;
+        console.log(values);
+        values = [displayVal];
+      }
     }
 
     // Get last operator clicked before clicking another operator
     // This is useful for chained operation (over 2 operands)
-    operatorSymbol = operator;
-    displayVal = "";
-    console.log(values);
-    clickedEqualsBtn = false;
-    clickedOperator = true;
-    clickedDigit = false;
+    // But this will only run if there was no attempt to divide by 0
+    if (!calledResetValues) {
+      operatorSymbol = operator;
+      displayVal = "";
+      console.log(values);
+      clickedEqualsBtn = false;
+      clickedOperator = true;
+      clickedDigit = false;
+    }
   })
 );
 
@@ -88,29 +102,40 @@ equalsBtn.addEventListener("click", () => {
   // implements equals operation only when you have two operands,
   // and ignores double or more click of equals button
   if (clickedDigit && !clickedEqualsBtn) {
-    values.push(parseInt(displayVal));
+    values.push(Number(displayVal));
     displayVal = operate(values[0], operator, values[1]);
-    console.log(displayVal);
-    displayDiv.textContent = displayVal;
-    console.log(values);
-    values = [];
-    clickedEqualsBtn = true;
-    clickedOperator = false;
-    clickedDigit = false;
-    operator = "";
-    operatorSymbol = "";
+    if (operator === "/" && values[1] === 0) {
+      alert("DIVISION BY 0 NOT ALLOWED!");
+      resetValues();
+    } else {
+      console.log(displayVal);
+      displayDiv.textContent = displayVal;
+      console.log(values);
+      values = [];
+      clickedEqualsBtn = true;
+      clickedOperator = false;
+      clickedDigit = false;
+      operator = "";
+      operatorSymbol = "";
+    }
   }
 });
 
 acBtn.addEventListener("click", () => {
-  values = [];
-  clickedEqualsBtn = false;
-  clickedOperator = false;
-  clickedDigit = false;
-  displayVal = "";
-  displayDiv.textContent = 0;
-  operator = "";
-  operatorSymbol = "";
+  resetValues();
+});
+
+decimalPointBtn.addEventListener("click", (event) => {
+  let decimalPoint = event.target.textContent;
+  if (!displayVal.includes(".")) {
+    if (displayVal) {
+      displayVal += decimalPoint;
+    } else {
+      displayVal = "0";
+      displayVal += decimalPoint;
+    }
+  }
+  displayDiv.textContent = displayVal;
 });
 
 function operate(num1, operator, num2) {
@@ -129,17 +154,40 @@ function operate(num1, operator, num2) {
 }
 
 function add(num1, num2) {
+  if (String(num1 + num2).includes(".")) {
+    return (num1 + num2).toFixed(2);
+  }
   return num1 + num2;
 }
 
 function subtract(num1, num2) {
+  if (String(num1 - num2).includes(".")) {
+    return (num1 - num2).toFixed(2);
+  }
   return num1 - num2;
 }
 
 function multiply(num1, num2) {
+  if (String(num1 * num2).includes(".")) {
+    return (num1 * num2).toFixed(2);
+  }
   return num1 * num2;
 }
 
 function divide(num1, num2) {
+  if (String(num1 / num2).includes(".")) {
+    return (num1 / num2).toFixed(2);
+  }
   return num1 / num2;
+}
+
+function resetValues() {
+  values = [];
+  clickedEqualsBtn = false;
+  clickedOperator = false;
+  clickedDigit = false;
+  displayVal = "";
+  displayDiv.textContent = 0;
+  operator = "";
+  operatorSymbol = "";
 }
