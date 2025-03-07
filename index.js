@@ -37,6 +37,7 @@ const equalsBtn = document.querySelector(".equals");
 const acBtn = document.querySelector(".ac");
 const decimalPointBtn = document.querySelector(".decimal-point");
 const negateBtn = document.querySelector(".negate");
+const backspace = document.querySelector(".backspace");
 
 digitBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
@@ -148,6 +149,20 @@ negateBtn.addEventListener("click", () => {
     displayVal = "-" + displayVal;
     displayDiv.textContent = displayVal;
     clickedNegate = true;
+  }
+});
+
+backspace.addEventListener("click", () => {
+  if (displayVal) {
+    displayVal = String(displayVal).replace(
+      String(displayVal)[String(displayVal).length - 1],
+      ""
+    );
+    if (displayDiv.textContent) {
+      displayDiv.textContent = displayVal;
+    } else {
+      displayDiv.textContent = "0";
+    }
   }
 });
 
