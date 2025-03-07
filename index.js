@@ -8,7 +8,6 @@ let operatorSymbol;
 let clickedEqualsBtn = false; // switch on once equals button is clicked
 let clickedOperator = false; // switch on once an operator button is clicked
 let clickedDigit = false; // switch on once you have created an operand
-let clickedNegate = false;
 
 // Will use this to make sure operator buttons behave appropriately
 // when there is an attempt to divide by 0
@@ -36,7 +35,7 @@ const operationBtns = operations.map((operation) =>
 const equalsBtn = document.querySelector(".equals");
 const acBtn = document.querySelector(".ac");
 const decimalPointBtn = document.querySelector(".decimal-point");
-const negateBtn = document.querySelector(".negate");
+const switchBtn = document.querySelector(".switch");
 const backspace = document.querySelector(".backspace");
 
 digitBtns.map((btn) =>
@@ -97,7 +96,6 @@ operationBtns.map((btn) =>
       clickedEqualsBtn = false;
       clickedOperator = true;
       clickedDigit = false;
-      clickedNegate = false;
     }
     calledResetValues = false; // reset to false for next time operator button is clicked
   })
@@ -120,7 +118,6 @@ equalsBtn.addEventListener("click", () => {
       clickedEqualsBtn = true;
       clickedOperator = false;
       clickedDigit = false;
-      clickedNegate = false;
       operator = "";
       operatorSymbol = "";
     }
@@ -144,24 +141,27 @@ decimalPointBtn.addEventListener("click", (event) => {
   displayDiv.textContent = displayVal;
 });
 
-negateBtn.addEventListener("click", () => {
-  if (displayVal && !clickedNegate) {
-    displayVal = "-" + displayVal;
+switchBtn.addEventListener("click", () => {
+  if (displayVal) {
+    displayVal = -1 * Number(displayVal);
     displayDiv.textContent = displayVal;
-    clickedNegate = true;
   }
 });
 
 backspace.addEventListener("click", () => {
-  if (displayVal) {
-    displayVal = String(displayVal).replace(
-      String(displayVal)[String(displayVal).length - 1],
-      ""
-    );
-    if (displayDiv.textContent) {
+  // backspace works as AC (clear all) if kicked just after an operator
+  if (clickedOperator) {
+    resetValues();
+  } else {
+    if (displayVal) {
+      displayVal = String(displayVal).replace(
+        String(displayVal)[String(displayVal).length - 1],
+        ""
+      );
       displayDiv.textContent = displayVal;
-    } else {
-      displayDiv.textContent = "0";
+    }
+    if (!displayVal) {
+      displayDiv.textContent = 0;
     }
   }
 });
@@ -215,7 +215,6 @@ function resetValues() {
   clickedOperator = false;
   clickedDigit = false;
   calledResetValues = false;
-  clickedNegate = false;
   displayVal = "";
   displayDiv.textContent = 0;
   operator = "";
