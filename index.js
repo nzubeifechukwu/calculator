@@ -58,7 +58,6 @@ digitBtns.map((btn) =>
 operationBtns.map((btn) =>
   btn.addEventListener("click", (event) => {
     operator = event.target.textContent;
-    console.log(operator);
 
     // Don't update values if operator buttons are clicked consecutively
     // This ensures that values can't contain more than two operands
@@ -79,9 +78,7 @@ operationBtns.map((btn) =>
         resetValues();
         calledResetValues = true;
       } else {
-        console.log(displayVal);
         displayDiv.textContent = displayVal;
-        console.log(values);
         values = [displayVal];
       }
     }
@@ -92,7 +89,6 @@ operationBtns.map((btn) =>
     if (!calledResetValues) {
       operatorSymbol = operator;
       displayVal = "";
-      console.log(values);
       clickedEqualsBtn = false;
       clickedOperator = true;
       clickedDigit = false;
@@ -111,9 +107,7 @@ equalsBtn.addEventListener("click", () => {
       alert("DIVISION BY 0 NOT ALLOWED!");
       resetValues();
     } else {
-      console.log(displayVal);
       displayDiv.textContent = displayVal;
-      console.log(values);
       values = [];
       clickedEqualsBtn = true;
       clickedOperator = false;

@@ -15,40 +15,43 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
   </head>
-  <body class="container text-center">
-    <main class="container">
-      <div class="row">
+  <body class="container">
+    <main class="container col-6">
+      <div class="row text-end">
         <div class="col display">0</div>
       </div>
-      <div class="row">
-        <div class="col ac">AC</div>
-        <div class="col switch">+/-</div>
-        <div class="col">%</div>
-        <div class="col divide">/</div>
+      <div class="row gap-1">
+        <button type="button" class="btn btn-primary col ac">AC</button>
+        <button type="button" class="btn btn-primary col switch">+/-</button>
+        <button type="button" class="btn btn-primary col">
+          <i class="bi bi-backspace backspace"></i>
+        </button>
+        <button type="button" class="btn btn-warning col divide">/</button>
       </div>
-      <div class="row">
-        <div class="col seven">7</div>
-        <div class="col eight">8</div>
-        <div class="col nine">9</div>
-        <div class="col multiply">*</div>
+      <div class="row gap-1">
+        <button type="button" class="btn btn-success col seven">7</button>
+        <button type="button" class="btn btn-success col eight">8</button>
+        <button type="button" class="btn btn-success col nine">9</button>
+        <button type="button" class="btn btn-warning col multiply">*</button>
       </div>
-      <div class="row">
-        <div class="col four">4</div>
-        <div class="col five">5</div>
-        <div class="col six">6</div>
-        <div class="col subtract">-</div>
+      <div class="row gap-1">
+        <button type="button" class="btn btn-success col four">4</button>
+        <button type="button" class="btn btn-success col five">5</button>
+        <button type="button" class="btn btn-success col six">6</button>
+        <button type="button" class="btn btn-warning col subtract">-</button>
       </div>
-      <div class="row">
-        <div class="col one">1</div>
-        <div class="col two">2</div>
-        <div class="col three">3</div>
-        <div class="col add">+</div>
+      <div class="row gap-1">
+        <button type="button" class="btn btn-success col one">1</button>
+        <button type="button" class="btn btn-success col two">2</button>
+        <button type="button" class="btn btn-success col three">3</button>
+        <button type="button" class="btn btn-warning col add">+</button>
       </div>
-      <div class="row">
-        <div class="col zero">0</div>
-        <i class="bi bi-backspace col backspace"></i>
-        <div class="col decimal-point">.</div>
-        <div class="col equals">=</div>
+      <div class="row gap-1">
+        <button type="button" class="btn btn-success col-6 zero">0</button>
+        <button type="button" class="btn btn-success col decimal-point">
+          .
+        </button>
+        <button type="button" class="btn btn-warning col equals">=</button>
       </div>
     </main>
     <script
