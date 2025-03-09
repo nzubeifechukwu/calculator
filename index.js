@@ -135,12 +135,12 @@ decimalPointBtn.addEventListener("click", (event) => {
   displayDiv.textContent = displayVal;
 });
 
-switchBtn.addEventListener("click", () => {
-  if (displayVal) {
-    displayVal = -1 * Number(displayVal);
-    displayDiv.textContent = displayVal;
-  }
-});
+// switchBtn.addEventListener("click", () => {
+//   if (displayVal) {
+//     displayVal = -1 * Number(displayVal);
+//     displayDiv.textContent = displayVal;
+//   }
+// });
 
 backspace.addEventListener("click", () => {
   // backspace works as AC (clear all) if kicked just after an operator
