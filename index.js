@@ -25,7 +25,7 @@ const digits = [
   "eight",
   "nine",
 ];
-const operations = ["add", "subtract", "multiply", "divide"];
+const operations = ["add", "sub", "mul", "divide"];
 
 const displayDiv = document.querySelector(".display");
 const digitBtns = digits.map((digit) => document.querySelector(`.${digit}`));
@@ -34,8 +34,8 @@ const operationBtns = operations.map((operation) =>
 );
 const equalsBtn = document.querySelector(".equals");
 const acBtn = document.querySelector(".ac");
-const decimalPointBtn = document.querySelector(".decimal-point");
-const switchBtn = document.querySelector(".switch");
+const decimalPointBtn = document.querySelector(".dot");
+const switchBtn = document.querySelector(".swch");
 const backspace = document.querySelector(".backspace");
 
 digitBtns.map((btn) =>
@@ -63,7 +63,7 @@ operationBtns.map((btn) =>
     // This ensures that values can't contain more than two operands
     if (!clickedOperator) {
       if (!displayVal) {
-        values.push(Number(0));
+        values.push(0);
       } else {
         values.push(Number(displayVal));
       }
@@ -135,12 +135,12 @@ decimalPointBtn.addEventListener("click", (event) => {
   displayDiv.textContent = displayVal;
 });
 
-// switchBtn.addEventListener("click", () => {
-//   if (displayVal) {
-//     displayVal = -1 * Number(displayVal);
-//     displayDiv.textContent = displayVal;
-//   }
-// });
+switchBtn.addEventListener("click", () => {
+  if (displayVal) {
+    displayVal = -1 * Number(displayVal);
+    displayDiv.textContent = displayVal;
+  }
+});
 
 backspace.addEventListener("click", () => {
   // backspace works as AC (clear all) if kicked just after an operator
