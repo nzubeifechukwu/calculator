@@ -2,7 +2,7 @@
 
 A web app (on-screen calculator) that performs basic maths operations like add, subtract, multiply and divide.
 
-See the <a href="https://nzubeifechukwu-calculator.netlify.app/" target="_blank">live demo</a>.
+See the [live demo](https://nzubeifechukwu-calculator.netlify.app/).
 
 ## Use cases
 
