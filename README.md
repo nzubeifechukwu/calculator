@@ -2,6 +2,8 @@
 
 A web app (on-screen calculator) that performs basic maths operations like add, subtract, multiply and divide.
 
+See the [live demo](https://nzubeifechukwu-calculator.netlify.app/){:target="\_blank"}.
+
 ## Use cases
 
 1. The calculator performs all basic maths like add, subtract, multiply and divide.
@@ -27,7 +29,7 @@ A web app (on-screen calculator) that performs basic maths operations like add, 
 
 ## Inspiration
 
-This [project](https://www.theodinproject.com/lessons/foundations-calculator) is part of [The Odin Project's Full-Stack Web Development Foundations](https://www.theodinproject.com/paths/foundations) path.
+This [project](https://www.theodinproject.com/lessons/foundations-calculator) is part of [The Odin Project](https://www.theodinproject.com/)'s Full-Stack Web Development Foundations path.
 
 ## Contact
 
